@@ -1,3 +1,4 @@
+import { EventSchema } from './../events/entities/event.entity';
 import { CoffeesService } from './coffees.service';
 import { CoffeesController } from './coffees.controller';
 import { Module } from '@nestjs/common';
@@ -11,6 +12,10 @@ import { Coffee, CoffeeSchema } from './entities/coffee.entity';
       {
         name: Coffee.name,
         schema: CoffeeSchema,
+      },
+      {
+        name: Event.name,
+        schema: EventSchema,
       },
     ]),
   ],
