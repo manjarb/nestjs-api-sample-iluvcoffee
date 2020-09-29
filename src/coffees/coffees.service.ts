@@ -55,7 +55,7 @@ export class CoffeesService {
 
   async remove(id: string) {
     const coffee = await this.findOne(id);
-    return coffee.remove();
+    return coffee.deleteOne();
   }
 
   async recommendCoffee(coffee: Coffee) {

@@ -1,4 +1,4 @@
-import { EventSchema } from './../events/entities/event.entity';
+import { Event, EventSchema } from './../events/entities/event.entity';
 import { CoffeesService } from './coffees.service';
 import { CoffeesController } from './coffees.controller';
 import { Module } from '@nestjs/common';
@@ -21,5 +21,6 @@ import { Coffee, CoffeeSchema } from './entities/coffee.entity';
   ],
   controllers: [CoffeesController],
   providers: [CoffeesService],
+  exports: [CoffeesService],
 })
 export class CoffeesModule {}
