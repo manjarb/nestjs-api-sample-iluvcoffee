@@ -11,6 +11,7 @@ import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 import { Coffee } from './entities/coffee.entity';
 import { Event } from 'src/events/entities/event.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CoffeesService {
@@ -18,7 +19,16 @@ export class CoffeesService {
     @InjectModel(Coffee.name) private readonly coffeeModel: Model<Coffee>,
     @InjectModel(Event.name) private readonly eventModel: Model<Event>,
     @InjectConnection() private readonly connection: Connection,
-  ) {}
+    // Get env variables
+    private configService: ConfigService,
+  ) {
+    /* Accessing process.env variables from ConfigService */
+    const databaseHost = this.configService.get<string>(
+      'DATABASE_HOST',
+      'default',
+    );
+    console.log(databaseHost, ' :databaseHost')
+  }
 
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit, offset } = paginationQuery;
