@@ -8,7 +8,10 @@ import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      // for custom env file path
+      // envFilePath: '.environment'
+    }),
     CoffeesModule,
     MongooseModule.forRoot('mongodb://localhost:27017/nest-course', {
       useNewUrlParser: true,
