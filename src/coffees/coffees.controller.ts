@@ -1,3 +1,4 @@
+import { ParseIntPipe } from './../common/pipes/parse-int.pipe';
 import { Public } from './../common/decorators/public.decorator';
 import { PaginationQueryDto } from './../common/dto/pagination-query.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -40,7 +41,14 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(
+    @Param(
+      'id',
+      // Add pipe for modify data before the method
+      // ParseIntPipe
+    )
+    id: string,
+  ) {
     return this.coffeesService.findOne(id);
   }
 
