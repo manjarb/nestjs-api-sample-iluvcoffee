@@ -1,3 +1,4 @@
+import { Public } from './../common/decorators/public.decorator';
 import { PaginationQueryDto } from './../common/dto/pagination-query.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
@@ -11,6 +12,7 @@ import {
   Patch,
   Post,
   Query,
+  SetMetadata,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -27,7 +29,8 @@ export class CoffeesController {
   // }
 
   // Add validation for only /
-  @UsePipes(ValidationPipe)
+  // @UsePipes(ValidationPipe)
+  @Public()
   @Get()
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     // const { limit, offset } = paginationQuery;
