@@ -11,8 +11,12 @@ import {
   Patch,
   Post,
   Query,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 
+// Add validation for all /coffees route
+// @UsePipes(ValidationPipe)
 @Controller('coffees')
 export class CoffeesController {
   constructor(private coffeesService: CoffeesService) {}
@@ -22,6 +26,8 @@ export class CoffeesController {
   //   response.status(200).send('All coffees')
   // }
 
+  // Add validation for only /
+  @UsePipes(ValidationPipe)
   @Get()
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     // const { limit, offset } = paginationQuery;
@@ -39,7 +45,11 @@ export class CoffeesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body: UpdateCoffeeDto) {
+  update(
+    @Param('id') id: string,
+    // Validation for only body of this route
+    @Body(ValidationPipe) body: UpdateCoffeeDto,
+  ) {
     return this.coffeesService.update(id, body);
   }
 
