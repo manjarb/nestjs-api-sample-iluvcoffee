@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CoffeesService } from './coffees.service';
 import { Event } from '../events/entities/event.entity';
+import { NotFoundException } from '@nestjs/common';
 
 describe('CoffeesService', () => {
   let service: CoffeesService;
@@ -40,5 +41,31 @@ describe('CoffeesService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  describe('findOne', () => {
+    describe('when coffee with ID exists', () => {
+      it('should return the coffee object', async () => {
+        const coffeeId = '5f7800900f5d0c6e6cef073c';
+        const coffee = await service.findOne(coffeeId);
+        expect(coffee.id).toEqual(coffeeId);
+      });
+    });
+
+    describe('otherwise (error case)', () => {
+      it('should throw the "NotFoundException"', async done => {
+        const coffeeId = '5f7800900f5d0c6e6cef073a';
+
+        try {
+          await service.findOne(coffeeId);
+
+          done();
+        } catch (err) {
+          expect(err).toBeInstanceOf(NotFoundException);
+          expect(err.message).toEqual(`Coffee #${coffeeId} not found`);
+          done();
+        }
+      });
+    });
   });
 });
