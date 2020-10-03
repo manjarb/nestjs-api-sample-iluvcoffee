@@ -1,8 +1,10 @@
+import { ApiProperty } from '@nestjs/swagger';
 // For using 'class-validator
 // Need to app.useGlobalPipes(new ValidationPipe()) on main.ts first
 import { IsString } from 'class-validator';
 
 export class CreateCoffeeDto {
+  @ApiProperty({ description: 'Name of a coffee' })
   @IsString()
   readonly name: string;
 

@@ -1,5 +1,4 @@
 import { Protocol } from './../common/decorators/protocol.decorator';
-import { ParseIntPipe } from './../common/pipes/parse-int.pipe';
 import { Public } from './../common/decorators/public.decorator';
 import { PaginationQueryDto } from './../common/dto/pagination-query.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -14,13 +13,17 @@ import {
   Patch,
   Post,
   Query,
-  SetMetadata,
-  UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 
 // Add validation for all /coffees route
 // @UsePipes(ValidationPipe)
+/**
+ * Swagger Tags decorator.
+ * 💡 Note: Can also be done on an individual method-level if needed as well!
+ */
+@ApiTags('coffees')
 @Controller('coffees')
 export class CoffeesController {
   constructor(private coffeesService: CoffeesService) {}
@@ -32,6 +35,11 @@ export class CoffeesController {
 
   // Add validation for only /
   // @UsePipes(ValidationPipe)
+  // Sample others Response for swagger (same error case)
+  // Long version
+  // @ApiResponse({ status: 403, description: 'Forbidden.' })
+  /* short-hand versions are available as well */
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Public()
   @Get()
   findAll(
