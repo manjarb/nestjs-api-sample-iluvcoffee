@@ -33,6 +33,8 @@ export class CoffeesController {
   @Public()
   @Get()
   findAll(@Query() paginationQuery: PaginationQueryDto) {
+    /* Add manual timeout to force timeout interceptor to work */
+    // await new Promise(resolve => setTimeout(resolve, 5000));
     // const { limit, offset } = paginationQuery;
     return this.coffeesService.findAll(paginationQuery);
   }

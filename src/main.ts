@@ -1,4 +1,5 @@
-import { ApiKeyGuard } from './common/guards/api-key.guard';
+import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { WrapResponseInterceptor } from './common/interceptors/wrap-response.interceptor';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -23,6 +24,13 @@ async function bootstrap() {
   );
   // Catch Http error ex. find non-exist :id -1
   app.useGlobalFilters(new HttpExceptionFilter());
+  // Add interceptor to modify response
+  app.useGlobalInterceptors(
+    // Modify route response
+    // new WrapResponseInterceptor(),
+    // Timeout request handle
+    new TimeoutInterceptor(),
+  );
   await app.listen(3000);
 }
 bootstrap();
