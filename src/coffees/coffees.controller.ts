@@ -1,3 +1,6 @@
+import { Protocol } from './../common/decorators/protocol.decorator';
+import { ParseIntPipe } from './../common/pipes/parse-int.pipe';
+import { Public } from './../common/decorators/public.decorator';
 import { PaginationQueryDto } from './../common/dto/pagination-query.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
@@ -11,8 +14,13 @@ import {
   Patch,
   Post,
   Query,
+  SetMetadata,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 
+// Add validation for all /coffees route
+// @UsePipes(ValidationPipe)
 @Controller('coffees')
 export class CoffeesController {
   constructor(private coffeesService: CoffeesService) {}
@@ -22,14 +30,29 @@ export class CoffeesController {
   //   response.status(200).send('All coffees')
   // }
 
+  // Add validation for only /
+  // @UsePipes(ValidationPipe)
+  @Public()
   @Get()
-  findAll(@Query() paginationQuery: PaginationQueryDto) {
+  findAll(
+    @Protocol() protocol: string,
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
+    /* Add manual timeout to force timeout interceptor to work */
+    // await new Promise(resolve => setTimeout(resolve, 5000));
     // const { limit, offset } = paginationQuery;
     return this.coffeesService.findAll(paginationQuery);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(
+    @Param(
+      'id',
+      // Add pipe for modify data before the method
+      // ParseIntPipe
+    )
+    id: string,
+  ) {
     return this.coffeesService.findOne(id);
   }
 
@@ -39,7 +62,11 @@ export class CoffeesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body: UpdateCoffeeDto) {
+  update(
+    @Param('id') id: string,
+    // Validation for only body of this route
+    @Body(ValidationPipe) body: UpdateCoffeeDto,
+  ) {
     return this.coffeesService.update(id, body);
   }
 

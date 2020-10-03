@@ -27,7 +27,7 @@ export class CoffeesService {
       'DATABASE_HOST',
       'default',
     );
-    console.log(databaseHost, ' :databaseHost')
+    console.log(databaseHost, ' :database Host');
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
