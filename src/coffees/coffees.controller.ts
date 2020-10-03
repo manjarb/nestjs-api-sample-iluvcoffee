@@ -1,3 +1,4 @@
+import { Protocol } from './../common/decorators/protocol.decorator';
 import { ParseIntPipe } from './../common/pipes/parse-int.pipe';
 import { Public } from './../common/decorators/public.decorator';
 import { PaginationQueryDto } from './../common/dto/pagination-query.dto';
@@ -33,7 +34,10 @@ export class CoffeesController {
   // @UsePipes(ValidationPipe)
   @Public()
   @Get()
-  findAll(@Query() paginationQuery: PaginationQueryDto) {
+  findAll(
+    @Protocol() protocol: string,
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
     /* Add manual timeout to force timeout interceptor to work */
     // await new Promise(resolve => setTimeout(resolve, 5000));
     // const { limit, offset } = paginationQuery;
