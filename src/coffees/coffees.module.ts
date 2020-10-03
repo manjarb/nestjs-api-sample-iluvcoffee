@@ -1,3 +1,4 @@
+import { ConfigModule } from '@nestjs/config';
 import { Event, EventSchema } from './../events/entities/event.entity';
 import { CoffeesService } from './coffees.service';
 import { CoffeesController } from './coffees.controller';
@@ -18,6 +19,7 @@ import { Coffee, CoffeeSchema } from './entities/coffee.entity';
         schema: EventSchema,
       },
     ]),
+    ConfigModule,
   ],
   controllers: [CoffeesController],
   providers: [CoffeesService],
